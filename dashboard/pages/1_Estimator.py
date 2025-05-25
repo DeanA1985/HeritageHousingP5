@@ -35,6 +35,13 @@ model_label = (
 )
 
 model = joblib.load(model_path)
+# Load the corresponding feature list
+feature_path = (
+    "models/linear_regression_features.pkl"
+    if model_choice else
+    "models/random_forest_features.pkl"
+)
+expected_features = joblib.load(feature_path)
 st.info(f"**Current Model:** {model_label}")
 
 # --- Input Sliders ---
@@ -86,7 +93,7 @@ with col2:
     )
 
 # --- Create Aligned DataFrame ---
-input_data = pd.DataFrame([{
+input_data = pd.DataFrame({
     "GrLivArea": GrLivArea,
     "GarageArea": GarageArea,
     "TotalBsmtSF": TotalBsmtSF,
@@ -97,7 +104,12 @@ input_data = pd.DataFrame([{
     "YearRemodAdd": YearRemodAdd,
     "MasVnrArea": MasVnrArea,
     "BsmtFinSF1": BsmtFinSF1
-}])
+}, index=[0])
+
+
+# Reindex input data to match expected feature order
+input_data = input_data.reindex(columns=expected_features, fill_value=0)
+
 
 # --- Prediction ---
 if st.button("📊 Predict Sale Price"):

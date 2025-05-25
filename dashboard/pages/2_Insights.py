@@ -10,25 +10,42 @@ from reportlab.lib.pagesizes import letter
 # ---- Page Header ----
 st.header("Explore Insights from Heritage Housing Data")
 
+st.markdown("""
+## Explore Insights from Heritage Housing Data
+
+This page allows you to explore how different property features
+relate to house sale prices, based on historical data and model predictions.
+
+You can:
+- **Visualize** historical trends and correlations.
+- **Predict** sale prices using trained models.
+- **Analyze** which features most influence the price.
+- **Export** insights as visuals or documents for sharing or further analysis.
+""")
+
 # ---- Load Data ----
 df = pd.read_csv("data/processed/cleaned_data.csv")
 
 # ---- SECTION 1: HISTORICAL DATA ----
 st.subheader("1. Historical Data Insights")
 
-st.markdown(
-    """
-    Explore the raw data used to train the models.
-    Use the controls below to choose a feature and
-    see how it relates to sale price.
-    """
-)
+st.markdown("""
+### Historical Relationship Between Features and Sale Price
+
+Use the dropdown below to select any feature (e.g., YearBuilt, GrLivArea,
+GarageCars).
+You'll see a scatter or box plot showing how that feature relates
+to **actual sale prices**.
+
+This is useful for understanding patterns in the original data — for example:
+- Do larger houses tend to sell for more?
+- Does overall quality increase price?
+""")
 
 selected_hist_feature = st.selectbox(
     "Choose a feature from the dataset:", df.columns.drop("SalePrice")
 )
 
-# Plot depending on feature type
 if pd.api.types.is_numeric_dtype(df[selected_hist_feature]):
     fig_hist = px.scatter(
         df,
@@ -47,8 +64,39 @@ else:
     )
 st.plotly_chart(fig_hist, use_container_width=True)
 
+st.markdown("""
+### Correlation Heatmap
+
+This heatmap shows how strongly each feature correlates with Sale Price.
+A **stronger correlation** (closer to 1 or -1) means the feature is more
+linearly related to sale price.
+
+This does **not** mean causation, but it helps identify key influencers
+in the data.
+""")
+
+corr_hist = df.select_dtypes(include=["number"]).corr()
+fig_corr = px.imshow(
+    corr_hist,
+    text_auto=True,
+    aspect="auto",
+    title="Correlation Matrix"
+)
+st.plotly_chart(fig_corr, use_container_width=True)
+
 # ---- SECTION 2: MODEL-DRIVEN INSIGHTS ----
 st.subheader("2. Insights from Model Predictions")
+
+st.markdown("""
+## Insights from Model Predictions
+
+This section lets you explore the behavior of your chosen machine learning
+model — either Random Forest or Linear Regression.
+
+The model predicts sale prices based on features. By comparing
+predictions with actual values,you can evaluate model accuracy
+and explore what the model has “learned” about the data.
+""")
 
 model_choice = st.sidebar.radio(
     "Choose a model:", ["Random Forest", "Linear Regression"]
@@ -69,7 +117,7 @@ selected_feature = st.selectbox(
     "Choose a model input feature to explore:", features
 )
 
-# Plot: Feature vs Predicted Price
+# Feature vs Predicted Price
 st.markdown("### Feature vs. Predicted Sale Price")
 fig1 = px.scatter(
     x=df[selected_feature],
@@ -81,8 +129,21 @@ fig1 = px.scatter(
 )
 st.plotly_chart(fig1, use_container_width=True)
 
-# Plot: Actual vs. Predicted
-st.markdown("### Actual vs. Predicted Sale Price")
+# Predicted vs Actual Price
+st.markdown("""
+### Predicted vs. Actual Prices
+
+This chart compares the model's **predicted sale prices**
+against the real prices in the dataset. A good model should
+show points close to the diagonal line — meaning predictions
+closely match real values.
+
+If there’s a wide spread, it might suggest:
+- Model limitations
+- Data issues
+- Underfitting or overfitting
+""")
+
 fig2 = px.scatter(
     x=y,
     y=predicted_prices,
@@ -94,29 +155,63 @@ fig2 = px.scatter(
 st.plotly_chart(fig2, use_container_width=True)
 
 # Feature Importance
-st.markdown("### Key Influential Features")
+st.markdown("""
+### Feature Importance
+
+Feature importance tells us which variables the model
+relied on most when making predictions.
+
+- In a **Random Forest**, it's based on how often and how effectively
+a feature splits the data.
+- In **Linear Regression**, it’s based on the absolute value of the
+model coefficients.
+
+This helps you understand what drives home value in the model's eyes.
+""")
+
 importance_df = pd.DataFrame({
     "Feature": features,
     "Importance": abs(
         model.feature_importances_
         if hasattr(model, "feature_importances_")
-        else model.coef_)
-
+        else model.coef_
+    )
 }).sort_values(by="Importance", ascending=False)
+
+# Top 3 Influential Features
+st.markdown("""
+### Top 3 Influential Features
+
+These are the features with the highest influence on the model’s predictions.
+They are ranked by how much they contributed to the predicted sale prices.
+""")
 
 top_features = importance_df.head(3)
 for _, row in top_features.iterrows():
     feature = row["Feature"]
     importance = row["Importance"]
     st.success(
-        f"**{feature}** is a top driver with importance {importance:.4f}"
+        f"**{feature}** is a top driver with importance "
+        f"{importance:.4f}"
     )
 
 # ---- EXPORT SECTION ----
 st.subheader("Export Insights and Visuals")
 
+st.markdown("""
+### Exporting Your Insights
+
+You can download:
+- A **CSV file** containing the top features and their importance.
+- A **PNG chart** visualizing the ranking of features.
+- A **PDF summary** with a plain-text summary of the top 3 features
+and their scores.
+
+These exports are perfect for reports, presentations,
+or client-facing documentation.
+""")
+
 # CSV Export
-st.markdown("### Download Top Features as CSV")
 st.download_button(
     label="Download CSV",
     data=top_features.to_csv(index=False),
@@ -125,7 +220,6 @@ st.download_button(
 )
 
 # PNG Export
-st.markdown("### Download Feature Importance Chart as PNG")
 png_buffer = io.BytesIO()
 fig_png = px.bar(
     top_features,
@@ -142,7 +236,6 @@ st.download_button(
 )
 
 # PDF Export
-st.markdown("### Download Insight Summary as PDF")
 pdf_buffer = io.BytesIO()
 c = canvas.Canvas(pdf_buffer, pagesize=letter)
 c.setFont("Helvetica", 12)
@@ -161,20 +254,18 @@ st.download_button(
 
 # ---- FEATURE GLOSSARY ----
 with st.expander("See Feature Glossary (Full Descriptions)"):
-    st.markdown(
-        """
-        - `GrLivArea`: Above Ground Living Area (sq ft)
-        - `GarageArea`: Enclosed Garage Space (sq ft)
-        - `TotalBsmtSF`: Total Basement Area (sq ft)
-        - `1stFlrSF`: First Floor Area (sq ft)
-        - `GarageYrBlt`: Year Garage was built
-        - `OverallQual`: Overall Quality Rating (1–10)
-        - `YearBuilt`: Year the house was originally constructed
-        - `YearRemodAdd`: Year of remodel/addition
-        - `MasVnrArea`: Masonry Veneer Area (sq ft)
-        - `BsmtFinSF1`: Finished Basement Area Type 1 (sq ft)
-        - `BsmtExposure`: Basement exposure level (None, Gd, Av, Mn)
-        - `KitchenQual`: Kitchen Quality (Ex, Gd, TA, Fa)
-        - `SalePrice`: Sale price of the property
-        """
-    )
+    st.markdown("""
+- `GrLivArea`: Above Ground Living Area (sq ft)
+- `GarageArea`: Enclosed Garage Space (sq ft)
+- `TotalBsmtSF`: Total Basement Area (sq ft)
+- `1stFlrSF`: First Floor Area (sq ft)
+- `GarageYrBlt`: Year Garage was built
+- `OverallQual`: Overall Quality Rating (1–10)
+- `YearBuilt`: Year the house was originally constructed
+- `YearRemodAdd`: Year of remodel/addition
+- `MasVnrArea`: Masonry Veneer Area (sq ft)
+- `BsmtFinSF1`: Finished Basement Area Type 1 (sq ft)
+- `BsmtExposure`: Basement exposure level (None, Gd, Av, Mn)
+- `KitchenQual`: Kitchen Quality (Ex, Gd, TA, Fa)
+- `SalePrice`: Sale price of the property
+""")

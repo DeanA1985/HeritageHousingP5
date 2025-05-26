@@ -27,7 +27,7 @@ This project delivers an end-to-end machine learning solution in response to a f
 The solution includes:
 
 - A machine learning model pipeline
-- Data preprocessing and visualization
+- Data preprocessing and visualisation
 - An interactive Streamlit web application
 - Deployment to Heroku for public access
 
@@ -95,14 +95,14 @@ Extreme values in continuous features like `GrLivArea` (e.g., homes over 4000 sq
 
 ### Why Data Cleaning Matters
 
-Data cleaning ensures that the dataset is accurate, consistent, and ready for analysis. Handling missing values prevents model distortion caused by nulls or improperly treated blanks. Converting data types (e.g., converting `MSSubClass` to categorical) aligns feature formats with their semantic meanings. Addressing outliers removes data points that disproportionately affect model coefficients, especially in linear models. These steps lead to a more reliable, interpretable, and accurate prediction model that can generalize better to unseen data. Without these transformations, the model might learn misleading patterns or fail altogether due to misaligned inputs.
+Data cleaning ensures that the dataset is accurate, consistent, and ready for analysis. Handling missing values prevents model distortion caused by nulls or improperly treated blanks. Converting data types (e.g., converting `BsmtExposure` to categorical) aligns feature formats with their semantic meanings. Addressing outliers removes data points that disproportionately affect model coefficients, especially in linear models. These steps lead to a more reliable, interpretable, and accurate prediction model that can generalize better to unseen data. Without these transformations, the model might learn misleading patterns or fail altogether due to misaligned inputs.
 
 ### Techniques Used:
 
 - Imputation using median for numerical values and mode or domain-based constants for categorical values.
 - Log transformations for selected skewed numerical features.
 - One-hot encoding for nominal categorical features.
-- Ordinal encoding for features with ranked categories (e.g., `KitchenQual`, `ExterQual`).
+- Ordinal encoding for features with ranked categories (e.g., `KitchenQual`).
 
 ---
 
@@ -374,7 +374,7 @@ We tested the Streamlit web app to make sure it worked as expected for users.
 
 ### 3. Usability Testing
 
-We had a few users test the app and give feedback.
+I had a few users test the app and give feedback these were family who had no real profound interest in data science or data analysis but were willing to take part .
 
 **What users said:**
 
@@ -400,6 +400,7 @@ We also tested unusual inputs like:
 - Models were tested and compared with clear performance scores.
 - The app was tested for function, user experience, and edge cases.
 - No major issues were found, and feedback was used to improve the final product.
+- All python pages were passed through Code Institute https://pep8ci.herokuapp.com/ and had no issues in code.
 
 ---
 
@@ -581,6 +582,38 @@ The application is suitable for deployment on **Heroku** or **Streamlit Communit
 
 ---
 
+## 16. Lessons Learned
+
+This project was a comprehensive learning experience that combined data science, software engineering, and user interface design. Here are some of the key lessons learned:
+
+### 1. Real-World Data is Messy
+
+Working with the Ames Housing dataset revealed just how many issues real data can have — missing values, inconsistent formats, and outliers. Cleaning and preparing the data took just as much effort as building the models.
+
+### 2. Simpler Models Can Still Be Powerful
+
+Linear Regression was surprisingly effective and much easier to interpret. While Random Forest offered higher accuracy, having both options helped me balance performance and explainability.
+
+### 3. Streamlit Makes ML More Accessible
+
+Using Streamlit transformed a technical machine learning project into a usable tool. It made it easy to build an interface that others "non-technical users" could interact with.
+
+### 4. Testing and User Feedback Improve Everything
+
+Manual testing, user walkthroughs, and edge case trials all helped refine the app. Tooltips, layout changes, and help text were added thanks to user feedback.
+
+### 5. Managing Libraries and Environments Matters
+
+Installing and managing dependencies like `pyarrow`, `reportlab`, and `plotly` highlighted the importance of version control. Keeping `requirements.txt` updated and being aware of library conflicts is essential for smooth deployment.
+
+### 6. Markdown and Documentation are Key
+
+Writing this README helped reinforce that technical work must be well-documented to be usable and assessable. Clear explanations, walkthroughs, and glossary sections make a huge difference.
+
+This project offered valuable experience across the full data science workflow — from analysis to deployment — and served as a solid foundation for future real-world applications.
+
+---
+
 ## Credits and References
 
 ### Acknowledgments
@@ -644,7 +677,7 @@ The application is suitable for deployment on **Heroku** or **Streamlit Communit
 2. **Create a `Procfile`** (already included):
 
    ```
-   web: streamlit run app.py
+   web: streamlit run dashboard/app.py
    ```
 
 3. **Ensure these files exist**:
@@ -664,23 +697,6 @@ The application is suitable for deployment on **Heroku** or **Streamlit Communit
    ```
 
 5. **Access the live app** via the generated Heroku URL.
-
----
-
-## Glossary of Key Features
-
-| Feature        | Description                                |
-| -------------- | ------------------------------------------ |
-| `GrLivArea`    | Above-ground living area (in sq ft)        |
-| `GarageCars`   | Number of cars that fit in the garage      |
-| `TotalBsmtSF`  | Total square footage of basement area      |
-| `1stFlrSF`     | First floor square footage                 |
-| `GarageArea`   | Total area of the garage (in sq ft)        |
-| `OverallQual`  | Overall material and finish quality        |
-| `KitchenQual`  | Kitchen quality (rated: Ex > Gd > TA > Fa) |
-| `BsmtExposure` | Basement exposure to light                 |
-
-**Note**: Ordinal categorical features were numerically encoded to preserve their order (e.g., Excellent = 4, Good = 3, Typical = 2, etc.).
 
 ---
 

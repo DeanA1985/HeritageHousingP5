@@ -559,30 +559,7 @@ The application is suitable for deployment on **Heroku** or **Streamlit Communit
 
 ---
 
-## Known Issues and Future Work
-
-### Known Issues
-
-- **Library Conflicts**:  
-  Occasional issues with `pyarrow` and other libraries required specific installations or version downgrades.
-
-- **Streamlit Caching**:  
-  When data is updated, Streamlit may cache old results unless restarted.
-
-- **Input Limitations**:  
-  App only accepts features that are present in the preprocessed dataset and encoded accordingly.
-
-### Future Enhancements
-
-- Hyperparameter tuning (e.g., `GridSearchCV`)
-- Add support for additional models like **XGBoost** or **Lasso Regression**
-- Upload CSV for batch property price predictions
-- SHAP-based visual explanations for feature impact
-- Cloud deployment with Docker for scalability
-
----
-
-## 16. Lessons Learned
+## Lessons Learned
 
 This project was a comprehensive learning experience that combined data science, software engineering, and user interface design. Here are some of the key lessons learned:
 
@@ -611,6 +588,29 @@ Installing and managing dependencies like `pyarrow`, `reportlab`, and `plotly` h
 Writing this README helped reinforce that technical work must be well-documented to be usable and assessable. Clear explanations, walkthroughs, and glossary sections make a huge difference.
 
 This project offered valuable experience across the full data science workflow — from analysis to deployment — and served as a solid foundation for future real-world applications.
+
+---
+
+## Known Issues and Future Work
+
+### Known Issues
+
+- **Library Conflicts**:  
+  Occasional issues with `pyarrow` and other libraries required specific installations or version downgrades.
+
+- **Streamlit Caching**:  
+  When data is updated, Streamlit may cache old results unless restarted.
+
+- **Input Limitations**:  
+  App only accepts features that are present in the preprocessed dataset and encoded accordingly.
+
+### Future Enhancements
+
+- Hyperparameter tuning (e.g., `GridSearchCV`)
+- Add support for additional models like **XGBoost** or **Lasso Regression**
+- Upload CSV for batch property price predictions
+- SHAP-based visual explanations for feature impact
+- Cloud deployment with Docker for scalability
 
 ---
 

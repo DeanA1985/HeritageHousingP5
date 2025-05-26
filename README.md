@@ -402,3 +402,327 @@ We also tested unusual inputs like:
 - No major issues were found, and feedback was used to improve the final product.
 
 ---
+
+## Streamlit Web Application
+
+## Streamlit App Walkthrough
+
+![App](images/app.png)
+
+The Heritage Housing app is an interactive tool built with [Streamlit](https://streamlit.io) that allows users to estimate house prices and explore data insights. Here's how to use each part of the app:
+
+### Home / Estimator Page
+
+This is the main tool for estimating the sale price of a house.
+
+![Estimator Intro](images/estimator1.png)
+
+![Input Characteristics](images/estimator2.png)
+
+![Price Estimation](images/estimator3.png)
+
+#### How It Works:
+
+1. **Choose a Model**  
+   Use the toggle switch at the top to select between:
+
+   - **Linear Regression**: Simpler and easier to explain.
+   - **Random Forest**: More accurate and handles complex patterns.
+
+2. **Set House Features**  
+   Use sliders and dropdowns to input values for features like:
+
+   - `GrLivArea` (living space)
+   - `GarageArea`
+   - `TotalBsmtSF`
+   - `KitchenQual` (kitchen quality)
+   - And more...
+
+3. **Predict Price**  
+   Click the **"Predict Price"** button.  
+   The predicted house price will appear below instantly.
+
+#### Optional:
+
+- Hover over sliders and dropdowns to see help tips.
+- All inputs are validated, and defaults are provided for convenience.
+
+### Insights Page
+
+This section helps users explore how features affect house prices.
+
+![Insights Intro](images/insights.png)
+
+#### What You Can Do:
+
+- **View Correlation Heatmap**  
+  See which features are most related to sale price.
+  ![Heatmap](images/heatmap.png)
+- **Scatter Plots**  
+  Compare sale price against any single feature (e.g., `GrLivArea`).
+  ![Scatterplot](images/scatterplot.png)
+- **Feature Importance (Random Forest)**  
+  Find out which features had the most influence on the prediction model.
+  ![Influential Features](images/influentialfeatures.png)
+
+#### Export Options:
+
+You can download:
+
+- A **CSV** file of the prediction
+- A **PNG** of the plot
+- A full **PDF report** showing your selected features and result
+
+![Exporting Insights](images/exportinsights.png)
+
+### About Page
+
+This page explains:
+
+- The story behind the app (Lydia Doe’s inherited houses)
+- What the app can help with
+- How to use it in real estate decision-making
+
+![About](images/about.png)
+
+### Footer
+
+At the bottom of every page, you’ll find:
+
+- A link to the GitHub repository
+- A link back to the Streamlit documentation
+- Author credits and year
+
+**Tip**: The app runs in the browser and requires no installation beyond Python and the required libraries. You can launch it locally with:
+
+`bash
+streamlit run dashboard/app.py`
+
+### Walkthrough:
+
+1. **Launch the app** with:
+   ```bash
+   streamlit run app.py
+   ```
+2. Navigate using the left sidebar.
+3. Use sliders and dropdowns to adjust property inputs.
+4. View dynamically generated predictions and charts.
+
+This interface ensures the model is **accessible and usable by real estate agents, clients, and analysts**.
+
+---
+
+## Deployment Guide
+
+### Hosting Option
+
+The application is suitable for deployment on **Heroku** or **Streamlit Community Cloud**.
+
+### Heroku Deployment Steps
+
+1. **Setup Heroku CLI** and login:
+
+   ```bash
+   heroku login
+   ```
+
+2. **Create a `Procfile`** (already included):
+
+   ```
+   web: streamlit run app.py
+   ```
+
+3. **Ensure these files exist**:
+
+   - `requirements.txt`
+   - `setup.sh`
+   - `Procfile`
+
+4. **Initialize Git and push**:
+
+   ```bash
+   git init
+   heroku create
+   git add .
+   git commit -m "Initial commit"
+   git push heroku master
+   ```
+
+5. **Access the live app** via the generated Heroku URL.
+
+---
+
+## Glossary of Key Features
+
+![Glossary](images/featuresglossary.png)
+
+---
+
+## Known Issues and Future Work
+
+### Known Issues
+
+- **Library Conflicts**:  
+  Occasional issues with `pyarrow` and other libraries required specific installations or version downgrades.
+
+- **Streamlit Caching**:  
+  When data is updated, Streamlit may cache old results unless restarted.
+
+- **Input Limitations**:  
+  App only accepts features that are present in the preprocessed dataset and encoded accordingly.
+
+### Future Enhancements
+
+- Hyperparameter tuning (e.g., `GridSearchCV`)
+- Add support for additional models like **XGBoost** or **Lasso Regression**
+- Upload CSV for batch property price predictions
+- SHAP-based visual explanations for feature impact
+- Cloud deployment with Docker for scalability
+
+---
+
+## Credits and References
+
+### Acknowledgments
+
+- **Code Institute**: Project brief and dataset foundation
+- **Scikit-learn**, **Pandas**, **Plotly**, **Streamlit**: Core libraries used
+- **Kaggle Ames Housing Discussions**: Inspiration for transformations and feature insights
+
+### Libraries Used
+
+- `pandas`, `numpy`, `scikit-learn`, `plotly`, `streamlit`, `joblib`, `reportlab`
+
+### Dataset Source
+
+- Ames Housing Dataset (via Code Institute)
+
+> Developed by [Your Name], 2025, as part of the Code Institute Specialisation Project. ## 11. Streamlit Web Application
+
+The project includes an interactive web application built using [Streamlit](https://streamlit.io/). This app allows users to interact with the trained model and derive insights without needing coding skills.
+
+### Features of the App:
+
+- **Homepage**: Offers an overview of the tool and instructions for use.
+- **Estimator Page**:
+  - Users input property details (e.g., size, number of garages, basement area).
+  - The model predicts the expected sale price based on trained data.
+- **Insights Page**:
+  - Historical relationship plots (scatter and heatmaps).
+  - Correlation analysis to identify key drivers of price.
+  - Model-specific feature importance explanations.
+  - Export of visual insights (PNG, CSV, PDF).
+
+### Walkthrough:
+
+1. **Launch the app** with:
+   ```bash
+   streamlit run app.py
+   ```
+2. Navigate using the left sidebar.
+3. Use sliders and dropdowns to adjust property inputs.
+4. View dynamically generated predictions and charts.
+
+This interface ensures the model is **accessible and usable by real estate agents, clients, and analysts**.
+
+---
+
+## Deployment Guide
+
+### Hosting Option
+
+The application is suitable for deployment on **Heroku** or **Streamlit Community Cloud**.
+
+### Heroku Deployment Steps
+
+1. **Setup Heroku CLI** and login:
+
+   ```bash
+   heroku login
+   ```
+
+2. **Create a `Procfile`** (already included):
+
+   ```
+   web: streamlit run app.py
+   ```
+
+3. **Ensure these files exist**:
+
+   - `requirements.txt`
+   - `setup.sh`
+   - `Procfile`
+
+4. **Initialize Git and push**:
+
+   ```bash
+   git init
+   heroku create
+   git add .
+   git commit -m "Initial commit"
+   git push heroku master
+   ```
+
+5. **Access the live app** via the generated Heroku URL.
+
+---
+
+## Glossary of Key Features
+
+| Feature        | Description                                |
+| -------------- | ------------------------------------------ |
+| `GrLivArea`    | Above-ground living area (in sq ft)        |
+| `GarageCars`   | Number of cars that fit in the garage      |
+| `TotalBsmtSF`  | Total square footage of basement area      |
+| `1stFlrSF`     | First floor square footage                 |
+| `GarageArea`   | Total area of the garage (in sq ft)        |
+| `OverallQual`  | Overall material and finish quality        |
+| `KitchenQual`  | Kitchen quality (rated: Ex > Gd > TA > Fa) |
+| `BsmtExposure` | Basement exposure to light                 |
+
+**Note**: Ordinal categorical features were numerically encoded to preserve their order (e.g., Excellent = 4, Good = 3, Typical = 2, etc.).
+
+---
+
+## Known Issues and Future Work
+
+### Known Issues
+
+- **Library Conflicts**:  
+  Occasional issues with `pyarrow` and other libraries required specific installations or version downgrades.
+
+- **Streamlit Caching**:  
+  When data is updated, Streamlit may cache old results unless restarted.
+
+- **Input Limitations**:  
+  App only accepts features that are present in the preprocessed dataset and encoded accordingly.
+
+### Future Enhancements
+
+- Hyperparameter tuning (e.g., `GridSearchCV`)
+- Add support for additional models like **XGBoost** or **Lasso Regression**
+- Upload CSV for batch property price predictions
+- SHAP-based visual explanations for feature impact
+- Cloud deployment with Docker for scalability
+
+---
+
+## Credits and References
+
+### Acknowledgments
+
+- **Code Institute**: Project brief and dataset foundation
+- **Scikit-learn**, **Pandas**, **Plotly**, **Streamlit**: Core libraries used
+- **Kaggle Ames Housing Discussions**: Inspiration for transformations and feature insights
+
+### Libraries Used
+
+- `pandas`, `numpy`, `scikit-learn`, `plotly`, `streamlit`, `joblib`, `reportlab`
+
+### Dataset Source
+
+- Ames Housing Dataset (via Code Institute)
+
+> Developed by [Your Name], 2025, as part of the Code Institute Specialisation Project.
+
+---

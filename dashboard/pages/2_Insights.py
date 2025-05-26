@@ -11,7 +11,6 @@ from reportlab.lib.pagesizes import letter
 st.header("Explore Insights from Heritage Housing Data")
 
 st.markdown("""
-## Explore Insights from Heritage Housing Data
 
 This page allows you to explore how different property features
 relate to house sale prices, based on historical data and model predictions.
@@ -80,6 +79,7 @@ fig_corr = px.imshow(
     corr_hist,
     text_auto=True,
     aspect="auto",
+    color_continuous_scale="RdBu",
     title="Correlation Matrix"
 )
 st.plotly_chart(fig_corr, use_container_width=True)
@@ -269,3 +269,32 @@ with st.expander("See Feature Glossary (Full Descriptions)"):
 - `KitchenQual`: Kitchen Quality (Ex, Gd, TA, Fa)
 - `SalePrice`: Sale price of the property
 """)
+
+# Footer with GitHub link
+footer = """
+<style>
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #f0f2f6;
+        text-align: center;
+        padding: 10px;
+        font-size: 0.9em;
+        color: #555;
+        border-top: 1px solid #eaeaea;
+    }
+    .footer a {
+        color: #0366d6;
+        text-decoration: none;
+        margin-left: 10px;
+    }
+</style>
+<div class="footer">
+    Heritage Housing App &copy; 2025 | Powered by Streamlit
+    <a href="https://github.com/DeanA1985/HeritageHousingP5" target="_blank">
+    GitHub Repo</a>
+</div>
+"""
+st.markdown(footer, unsafe_allow_html=True)
